@@ -1,19 +1,18 @@
 #Flask backend
-from os import path
+import os.path
 from flask import Flask
-import CreateDictDb
-import returnRandom
-import dailyDict
+import createDictDb
+import createDailyDb
 import selectRand1
 app = Flask(__name__)
 
 @app.route("/")
 def displayWord():
-  if(os.path.isfile('dictionary.db')==True): #check if the main database file exists.
-    pass
-  else:
-    CreateDictDb.main() #if it doesn't exist create new database.
-  returnRandom.main() #select 24 random numbers.
-  dailyDict.main() #picks out entries from 'dictionary.db'
-  selectRand1.selectRand1() #picks out one random number from dailyDict
-  print('pass')
+    print('pass')
+    if(os.path.isfile('dictionary.db')!=True): #check if the main database file exists.
+        createDictDb.main()#if not, create new database.
+    createDailyDb.main() #Creates a database of 24 words.
+    return selectRand1.main() #picks out one random number from dailyDict
+
+if __name__ == "__main__":
+    app.run()
