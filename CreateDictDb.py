@@ -1,14 +1,21 @@
 #turn dictionary.txt into python dictionary
-#using python3.6.1
+#First program to run
+#using python 3.6.1
 import sqlite3
 
 def dictList():
-  '''Parses a text file into a list, and strips newlines, and NULL entries.'''
-  with open('dictionary.txt','r') as doc:
-    wordsList=doc.read().splitlines()
-  temp=list(map(lambda each: each.strip('\n'),wordsList))
-  temp=list(map(lambda each: each.strip(),temp))
-  return(temp)
+    '''Parses 'dictonary.txt text' file into a list, and strips newlines, and NULL entries.'''
+    try:
+        with open('dictionary.txt','r', encoding="utf-8") as doc:
+            wordsList=doc.read().splitlines()
+    except UnicodeDecodeError:
+        print("UnicodeDecodeError")
+        pass
+    else:
+        print("dictionary file not found")
+    temp=list(map(lambda each: each.strip('\n'),wordsList))
+    temp=list(map(lambda each: each.strip(),temp))
+    return(temp)
 
 def dictify(x):
   tempDict={}
@@ -35,19 +42,11 @@ def createDb(newDict):
   dictDb.commit()
   dictDb.close()
 
-def showDb():
-  dictDb=sqlite3.connect('dictionary.db')
-  cursor=dictDb.cursor()
-  words=cursor.execute("SELECT name, def FROM wordList")
-  print(cursor.fetchall())
-
 def main():
   workingList = dictList() #Creates a string from a textfile
   workingList=list(filter(None,workingList)) #removes empty list entries
   newDict=dictify(workingList) #Takes in list, returns dictionary
-  print("pass")
   createDb(newDict)
-  showDb()
-  
+
 if __name__=="__main__":
   main()

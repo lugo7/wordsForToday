@@ -17,10 +17,7 @@ def getWords(dailyId):
   for x in range(24):
     db.execute("SELECT name, def FROM wordList WHERE generated_id=?",(dailyId[x],))
     row=db.fetchall()
-    print(row)
-    print(len(row[0]))
     dailyDict.update({row[0][0]:row[0][1]})
-  print(dailyDict)
   return dailyDict
 
 def createDb(newDict):

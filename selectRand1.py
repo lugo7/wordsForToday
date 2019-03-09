@@ -1,24 +1,21 @@
 import sqlite3
+import json
 
-def selectRand1():
+def main():
   openFile=sqlite3.connect("dict24.db")
   db=openFile.cursor()
   db.execute("SELECT name, def FROM dailyTable ORDER BY RANDOM() LIMIT 1")
   row=db.fetchall()
   openFile.commit()
   openFile.close()
-  print(len(row))
-  print(row)
   row=str(row[0])
+  row=row.strip('()')
+  row=row.strip(" '' ")
   row=row.split(',',1)
-  newDef={row[0]:row[1]}
-  print(len(row))
-  print(type(row))
-  print(newDef)
-  return newDef
+  for x in range(len(row)):
+      row[x]=row[x].strip(" '' ")
+      row[x]=row[x].strip(" "" ")
+  return row
 
-def main():
-  selectRand1()
-  
 if __name__=="__main__":
-  main()
+    main()
